@@ -1,0 +1,52 @@
+CREATE TABLE loja.financeira
+(
+    codigo SERIAL PRIMARY KEY,
+    nome character varying(200) NOT NULL   
+);
+
+--codigo auto incrementa pq add o "SERIAL"
+
+CREATE TABLE loja.venda
+(
+    codigo SERIAL PRIMARY KEY,
+    data date,
+    nroparcelas integer,
+    txjuros numeric(10,2),
+    cod_fin integer,
+    FOREIGN KEY (cod_fin) REFERENCES loja.financeira (codigo) 
+);
+
+INSERT INTO loja.financeira(nome) VALUES ('FincA');
+INSERT INTO loja.financeira(nome) VALUES ('FincB');
+INSERT INTO loja.financeira(nome) VALUES ('FincC');
+
+SELECT nome
+FROM loja.financeira
+ORDER BY nome asc;
+
+SELECT DISTINCT nome
+FROM loja.financeira;
+
+SELECT AVG(nroparcelas) 
+FROM loja.venda;
+
+SELECT data 
+FROM loja.venda, loja.financeira
+WHERE data >= 2019-01-01 AND data <= 2021-12-30;
+
+SELECT COUNT(nome) 
+FROM loja.financeira;
+
+SELECT nome
+FROM loja.financeira
+GROUP BY nome;
+
+SELECT nome 
+FROM loja.financeira
+WHERE nome LIKE '%A';
+
+SELECT nroparcelas 
+FROM loja.venda
+GROUP BY nroparcelas
+HAVING nroparcelas > 3;
+
