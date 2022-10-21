@@ -1,0 +1,35 @@
+CREATE TABLE sala.departamentos(
+	dcode integer PRIMARY KEY,
+	dnome character varying(20),
+	chefe integer
+);
+CREATE TABLE sala.empregados(
+	ecod integer PRIMARY KEY,
+	enome character varying (40) NOT NULL,
+	dcod integer,
+	FOREIGN KEY (dcod) REFERENCES sala.departamentos(dcode)
+);
+INSERT INTO sala.departamentos VALUES (045,'Lago Sul',5);
+INSERT INTO sala.departamentos VALUES (044,'Candangolandia',4);
+INSERT INTO sala.departamentos VALUES (043,'Lago Norte',3);
+INSERT INTO sala.empregados VALUES (067,'Raimundo',045);
+INSERT INTO sala.empregados VALUES (064,'Roberto',044);
+INSERT INTO sala.empregados VALUES (063,'Tereza',043);
+/* Letra A) Liste todos os dados da tabela empregados
+*/
+SELECT *
+FROM sala.empregados;
+/* Letra B) Liste o nome dos empregados cujo o chefe é o 5*/
+SELECT enome
+FROM sala.departamentos d,sala.empregados e
+WHERE chefe =5 
+AND d.dcode= e.dcod;
+/* Letra C) Liste o nome dos departamentos que começam com a letra 'e'*/
+SELECT dnome
+FROM sala.departamentos
+WHERE dnome
+LIKE 'E%';
+/* Caso precise deletar*/
+DROP TABLE sala.empregados;
+DROP TABLE sala.departamentos;
+
