@@ -1,0 +1,41 @@
+CREATE TABLE prova.CIAAEREA(
+	cod_cia_aerea integer NOT NULL,
+	nome_cia_aerea character varying (30)
+);
+CREATE TABLE prova.DESTINO(
+	cod_destino integer,
+	nome_aeroporto_destino character varying (50)
+);
+CREATE TABLE prova.CIDADE(
+	cod_cidade integer,
+	nome_cidade character varying (30)
+);
+CREATE TABLE prova.TRAJETO(
+	cod_destino integer,
+	cod_cia_aerea integer,
+	horario integer
+	--FOREIGN KEY(codi_cia_aerea) REFERENCES prova.CIAAREA(cod_cia_aerea)
+);
+
+INSERT INTO prova.CIAAEREA (cod_cia_aerea, nome_cia_aerea) VALUES (10,'GOL');
+INSERT INTO prova.DESTINO (cod_destino,nome_aeroporto_destino) VALUES (5,'JK');
+INSERT INTO prova.CIDADE (cod_cidade,nome_cidade) VALUES (15,'BSB');
+INSERT INTO prova.TRAJETO (cod_destino, cod_cia_aerea,horario) VALUES (5,10,14);
+;
+/* Forma Sem Join */
+
+SELECT nome_cia_aerea
+FROM prova.TRAJETO, prova.DESTINO,prova.CIDADE,prova.CIAAEREA
+WHERE horario BETWEEN 12 AND 18
+AND nome_aeroporto_destino = 'JK'
+AND nome_cidade = 'BSB';
+
+/* Forma Com Join */
+
+SELECT nome_cia_aerea
+FROM prova.TRAJETO NATURAL JOIN prova.DESTINO NATURAL JOIN prova.CIDADE NATURAL JOIN prova.CIAAEREA;
+
+DROP TABLE prova.CIAAREA;
+DROP TABLE prova.TRAJETO;
+
+
