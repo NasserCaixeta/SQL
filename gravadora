@@ -1,0 +1,94 @@
+CREATE TABLE "BDG".gravadora /*codigo grav, ngravadora, endereco, telefone, contato, url, codigo_grav*/
+(
+    codigo_grav integer NOT NULL,
+    ngravadora character varying(100) COLLATE pg_catalog."default",
+    endereco character varying(100) COLLATE pg_catalog."default",
+    telefone integer,
+    contato character varying(50) COLLATE pg_catalog."default",
+    url character varying(200) COLLATE pg_catalog."default",
+    CONSTRAINT gravadora_pkey PRIMARY KEY (codigo_grav)
+);
+
+CREATE TABLE "BDG".cd /*cod_cd,codigo_grav,nome,preço_venda,preco_venda,data_lancamento,cd_indicado */
+(
+    cod_cd integer NOT NULL,
+    codigo_grav integer,
+    nome character varying COLLATE pg_catalog."default",
+    preco_venda real,
+    data_lancamento date,
+    cd_indicado integer,
+    CONSTRAINT cd_pkey PRIMARY KEY (cod_cd)
+);
+
+CREATE TABLE "BDG".faixa /* cod_cd,cod_musical,numero_faixa*/(
+    cod_cd integer NOT NULL,
+    cod_musical integer NOT NULL,
+    numero_faixa integer,
+    CONSTRAINT faixa_pkey PRIMARY KEY (cod_cd, cod_musical)
+);
+
+CREATE TABLE "BDG".musica /*cod_musical,nome_musica,duracao */
+(
+    cod_musical integer NOT NULL,
+    nome_musica character varying(100) COLLATE pg_catalog."default",
+    duracao real,
+    CONSTRAINT musica_pkey PRIMARY KEY (cod_musical)
+);
+
+CREATE TABLE "BDG".musica_autor /* cod_musical,cod_autor   */
+(
+    cod_musical integer NOT NULL,
+    cod_autor integer NOT NULL,
+    CONSTRAINT musica_autor_pkey PRIMARY KEY (cod_musical, cod_autor)
+);
+
+CREATE TABLE "BDG".autor
+(
+    cod_autor integer NOT NULL,
+    nome_autor character varying COLLATE pg_catalog."default",
+    CONSTRAINT autor_pkey PRIMARY KEY (cod_autor)
+);
+
+CREATE TABLE "BDG".cd_categoria /*cod_categoria,maior_preco,menor_preco */
+(
+    cod_categoria integer NOT NULL,
+    maior_preco real,
+    menor_preco real,
+    CONSTRAINT cd_categoria_pkey PRIMARY KEY (cod_categoria)
+);
+	INSERT INTO "BDG".autor(cod_autor,nome_autor, cod_autor) VALUES (105,'jonas',1000);
+	
+	INSERT INTO "BDG".gravadora(codigo_grav, ngravadora, endereco, telefone, contato, url)
+	VALUES (140,10,'df',61912381,'rua@gmail.com','umlinkqualquer');
+	
+	INSERT INTO "BDG".cd (cod_cd,codigo_grav,nome,preco_venda,data_lancamento,cd_indicado)
+	VALUES (13,50,'seila',35,'2005,12,12',60);
+	
+	INSERT INTO "BDG".faixa (cod_cd,cod_musical,numero_faixa)
+	VALUES (67,80,3);
+	
+	INSERT INTO "BDG".musica (cod_musical,nome_musica,duracao)
+	VALUES (23,'uma musica qualquer',120);
+	
+	INSERT INTO "BDG".musica_autor (cod_musical, cod_autor)
+	VALUES (23,105);
+	
+	INSERT INTO "BDG".autor(cod_autor,nome_autor) 
+	VALUES (105,'jonas');
+	
+	INSERT INTO "BDG".cd_categoria (cod_categoria,maior_preco,menor_preco)
+	VALUES (500,1500,1000);
+	
+	----------------------------------------------
+	/* otimizar busca*/
+	SELECT cod_cd, nome, ngravadora
+	FROM "BDG".cd c, "BDG".gravadora g
+	WHERE c.codigo_grav = g.codigo_grav; /* <- ESTE É O MÉTODO BRUTO*/
+	
+	/* jeito otimizado */
+	SELECT cod_cd, nome, ngravadora
+	FROM "BDG".cd 
+	NATURAL JOIN "BDG".gravadora;
+	
+	SELECT *FROM "BDG".musica;
+
