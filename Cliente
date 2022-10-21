@@ -1,0 +1,21 @@
+CREATE TABLE banco.cliente(
+cpf integer,
+nome character varying (50),
+codpais integer);
+
+CREATE TABLE banco.conta(
+nconta integer);
+
+CREATE TABLE banco.saldodiario(
+nconta integer,
+diasaldo date,
+valorsaldo numeric);
+
+CREATE TABLE banco.contacliente(
+nconta integer,
+cpf integer);
+
+CREATE TABLE banco.pais(
+codpais integer,
+nomepais character varying(60)
+);
